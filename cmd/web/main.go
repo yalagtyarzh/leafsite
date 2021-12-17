@@ -19,7 +19,6 @@ var session *scs.SessionManager
 
 //main is the main application function
 func main() {
-
 	//change this to true when in production
 	app.InProduction = false
 
