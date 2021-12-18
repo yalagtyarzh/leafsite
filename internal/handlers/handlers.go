@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/yalagtyarzh/leafsite/pkg/config"
-	"github.com/yalagtyarzh/leafsite/pkg/models"
-	"github.com/yalagtyarzh/leafsite/pkg/render"
+	"github.com/yalagtyarzh/leafsite/internal/config"
+	"github.com/yalagtyarzh/leafsite/internal/models"
+	"github.com/yalagtyarzh/leafsite/internal/render"
 )
 
 //Repo the repository used by the handlers

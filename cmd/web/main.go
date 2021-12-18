@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/yalagtyarzh/leafsite/pkg/config"
-	"github.com/yalagtyarzh/leafsite/pkg/handlers"
-	"github.com/yalagtyarzh/leafsite/pkg/render"
+	"github.com/yalagtyarzh/leafsite/internal/config"
+	"github.com/yalagtyarzh/leafsite/internal/handlers"
+	"github.com/yalagtyarzh/leafsite/internal/render"
 )
 
 const portNumber = ":8080"

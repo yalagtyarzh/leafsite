@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 
 	"github.com/justinas/nosurf"
-	"github.com/yalagtyarzh/leafsite/pkg/config"
-	"github.com/yalagtyarzh/leafsite/pkg/models"
+	"github.com/yalagtyarzh/leafsite/internal/config"
+	"github.com/yalagtyarzh/leafsite/internal/models"
 )
 
 var functions = template.FuncMap{}
