@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/yalagtyarzh/leafsite/internal/config"
 	"github.com/yalagtyarzh/leafsite/internal/handlers"
+	"github.com/yalagtyarzh/leafsite/internal/models"
 	"github.com/yalagtyarzh/leafsite/internal/render"
 )
 
@@ -19,7 +21,10 @@ var session *scs.SessionManager
 
 //main is the main application function
 func main() {
-	//change this to true when in production
+	//What am I going to put in the session
+	gob.Register(models.Reservation{})
+
+	//Change this to true when in production
 	app.InProduction = false
 
 	session = scs.New()
