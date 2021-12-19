@@ -69,6 +69,13 @@ var theTests = []struct {
 		expectedStatusCode: http.StatusOK,
 	},
 	{
+		name:               "rs",
+		url:                "/reservation-summary",
+		method:             "GET",
+		params:             []postData{},
+		expectedStatusCode: http.StatusOK,
+	},
+	{
 		name:   "post-sa",
 		url:    "/search-availability",
 		method: "POST",

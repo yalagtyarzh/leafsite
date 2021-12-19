@@ -18,7 +18,7 @@ import (
 	"github.com/yalagtyarzh/leafsite/internal/render"
 )
 
-var app config.AppConfig
+var testApp config.AppConfig
 var session *scs.SessionManager
 var pathToTemplates = "./../../templates"
 var functions = template.FuncMap{}
@@ -28,28 +28,28 @@ func getRoutes() http.Handler {
 	gob.Register(models.Reservation{})
 
 	//Change this to true when in production
-	app.InProduction = false
+	testApp.InProduction = false
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
 	session.Cookie.Persist = true
 	session.Cookie.SameSite = http.SameSiteLaxMode
-	session.Cookie.Secure = app.InProduction
+	session.Cookie.Secure = testApp.InProduction
 
-	app.Session = session
+	testApp.Session = session
 
 	tc, err := CreateTestTemplateCache()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	app.TemplateCache = tc
-	app.UseCache = true
+	testApp.TemplateCache = tc
+	testApp.UseCache = true
 
-	repo := NewRepo(&app)
+	repo := NewRepo(&testApp)
 	NewHandlers(repo)
 
-	render.NewTemplates(&app)
+	render.NewTemplates(&testApp)
 
 	mux := chi.NewRouter()
 
@@ -84,7 +84,7 @@ func NoSurf(next http.Handler) http.Handler {
 	csrfHandler.SetBaseCookie(http.Cookie{
 		HttpOnly: true,
 		Path:     "/",
-		Secure:   app.InProduction,
+		Secure:   testApp.InProduction,
 		SameSite: http.SameSiteLaxMode,
 	})
 	return csrfHandler
