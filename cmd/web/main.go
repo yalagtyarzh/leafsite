@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/gob"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +10,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/yalagtyarzh/leafsite/internal/config"
+	"github.com/yalagtyarzh/leafsite/internal/driver"
 	"github.com/yalagtyarzh/leafsite/internal/handlers"
 	"github.com/yalagtyarzh/leafsite/internal/helpers"
 	"github.com/yalagtyarzh/leafsite/internal/models"
@@ -26,10 +26,11 @@ var errorLog *log.Logger
 
 //main is the main application function
 func main() {
-	err := run()
+	db, err := run()
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.SQL.Close()
 
 	fmt.Printf("Starting application on port %s", portNumber)
 
@@ -42,9 +43,12 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	//What am I going to put in the session
 	gob.Register(models.Reservation{})
+	gob.Register(models.User{})
+	gob.Register(models.Room{})
+	gob.Register(models.Restriction{})
 
 	//Change this to true when in production
 	app.InProduction = false
@@ -63,18 +67,28 @@ func run() error {
 
 	app.Session = session
 
+	//connect to database
+	log.Println("Connecting to database...")
+	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=leafsite user=agrael password=")
+	if err != nil {
+		log.Fatal("Cannot connect to database!, Dying...")
+		return nil, err
+	}
+	log.Println("Connected to database!")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
-		return errors.New("cannot create template cache")
+		log.Fatal("cannot create template cache")
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
-	render.NewTemplates(&app)
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }

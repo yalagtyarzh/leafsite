@@ -4,7 +4,7 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <h1>Make reservation</h1>
+      <h1>Make The Reservation</h1>
       <p><strong>Reservation details</strong></p>
 
       {{$res := index .Data "reservation"}}
@@ -26,6 +26,18 @@
             {{end}}
             <input type="text" name="last_name" id="last_name" class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}" value="{{$res.LastName}}" required autocomplete="off">
           </div>
+
+          <div class="form-group">
+            <label for="start_date">Start Date</label>
+            <input type="text" name="start_date" id="start_date" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="end_date">End Date</label>
+            <input type="text" name="end_date" id="end_date" class="form-control">
+          </div>
+
+          <input type="hidden" name="room_id" value="1">
 
           <div class="form-group">
             <label for="email">Email:</label>
