@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -295,77 +296,77 @@ func TestRepository_PostReservation(t *testing.T) {
 	}
 }
 
-// func TestRepository_AvailabilityJSON(t *testing.T) {
-// 	var theTests = []struct {
-// 		name            string
-// 		startDate       string
-// 		endDate         string
-// 		isAvailable     bool
-// 		expectedMessage string
-// 	}{
-// 		{
-// 			name:            "Rooms are not available",
-// 			startDate:       "start=2030-01-01",
-// 			endDate:         "end=2030-01-02",
-// 			isAvailable:     false,
-// 			expectedMessage: "",
-// 		},
-// 		{
-// 			name:            "Rooms are available",
-// 			startDate:       "start=2029-01-01",
-// 			endDate:         "end=2029-01-02",
-// 			isAvailable:     true,
-// 			expectedMessage: "",
-// 		},
-// 		{
-// 			name:            "Missing request body",
-// 			isAvailable:     false,
-// 			expectedMessage: "Internal server error",
-// 		},
-// 		{
-// 			name:            "Database error",
-// 			startDate:       "start=2040-01-01",
-// 			endDate:         "end=2040-01-02",
-// 			isAvailable:     false,
-// 			expectedMessage: "Error querying database",
-// 		},
-// 	}
+func TestRepository_AvailabilityJSON(t *testing.T) {
+	var theTests = []struct {
+		name            string
+		startDate       string
+		endDate         string
+		isAvailable     bool
+		expectedMessage string
+	}{
+		{
+			name:            "Rooms are not available",
+			startDate:       "start=2030-01-01",
+			endDate:         "end=2030-01-02",
+			isAvailable:     false,
+			expectedMessage: "",
+		},
+		{
+			name:            "Rooms are available",
+			startDate:       "start=2029-01-01",
+			endDate:         "end=2029-01-02",
+			isAvailable:     true,
+			expectedMessage: "",
+		},
+		{
+			name:            "Missing post body",
+			isAvailable:     false,
+			expectedMessage: "Internal server error",
+		},
+		{
+			name:            "Database error",
+			startDate:       "start=2040-01-01",
+			endDate:         "end=2040-01-02",
+			isAvailable:     false,
+			expectedMessage: "Error connecting to database",
+		},
+	}
 
-// 	for _, tt := range theTests {
-// 		var reqBody string
-// 		var req *http.Request
-// 		if tt.name == "Missing post body" {
-// 			req, _ = http.NewRequest("POST", "/make-reservation", nil)
-// 		} else {
-// 			reqBody = tt.startDate
-// 			reqBody = fmt.Sprintf("%s&%s", reqBody, tt.startDate)
-// 			reqBody = fmt.Sprintf("%s&%s", reqBody, tt.endDate)
+	for _, tt := range theTests {
+		var reqBody string
+		var req *http.Request
+		if tt.name == "Missing post body" {
+			req, _ = http.NewRequest("POST", "/search-availability-json", nil)
+		} else {
+			reqBody = tt.startDate
+			reqBody = fmt.Sprintf("%s&%s", reqBody, tt.endDate)
+			reqBody = fmt.Sprintf("%s&%s", reqBody, "room_id=1")
 
-// 			req, _ = http.NewRequest("POST", "/make-reservation", strings.NewReader(reqBody))
-// 		}
+			req, _ = http.NewRequest("POST", "/search-availability-json", strings.NewReader(reqBody))
+		}
 
-// 		ctx := getCtx(req)
-// 		req = req.WithContext(ctx)
+		ctx := getCtx(req)
+		req = req.WithContext(ctx)
 
-// 		req.Header.Set("Content-Type", "x-www-form-urlencoded")
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
-// 		rr := httptest.NewRecorder()
+		rr := httptest.NewRecorder()
 
-// 		handler := http.HandlerFunc(Repo.AvailabilityJSON)
+		handler := http.HandlerFunc(Repo.AvailabilityJSON)
 
-// 		handler.ServeHTTP(rr, req)
+		handler.ServeHTTP(rr, req)
 
-// 		var j jsonResponse
-// 		err := json.Unmarshal(rr.Body.Bytes(), &j)
-// 		if err != nil {
-// 			t.Error("failed to parse json")
-// 		}
+		var j jsonResponse
+		err := json.Unmarshal(rr.Body.Bytes(), &j)
+		if err != nil {
+			t.Error("failed to parse json")
+		}
 
-// 		if j.OK != tt.isAvailable || j.Message != tt.expectedMessage {
-// 			t.Errorf("Got \"%t\" availability when expected \"%t\", got \"%s\" message when expected \"%s\"", j.OK, tt.isAvailable, j.Message, tt.expectedMessage)
-// 		}
-// 	}
-// }
+		if j.OK != tt.isAvailable || j.Message != tt.expectedMessage {
+			t.Errorf("Got \"%t\" availability when expected \"%t\", got \"%s\" message when expected \"%s\"", j.OK, tt.isAvailable, j.Message, tt.expectedMessage)
+		}
+	}
+}
 
 func getCtx(req *http.Request) context.Context {
 	ctx, err := session.Load(req.Context(), req.Header.Get("X-Session"))
