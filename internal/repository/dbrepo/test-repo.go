@@ -14,7 +14,6 @@ func (m *testDBRepo) AllUsers() bool {
 
 //InsertReservation inserts a reservation into the database
 func (m *testDBRepo) InsertReservation(res models.Reservation) (int, error) {
-	//if the room id is 2, then fail; otherwise, pass
 	if res.RoomID == 2 {
 		return 0, errors.New("some error")
 	}
@@ -57,6 +56,31 @@ func (m *testDBRepo) SearchAvailabilityByDatesByRoomID(start, end time.Time, roo
 //SearchAvailabilityForAllRooms returns a slice of available rooms, if any, for given date range
 func (m *testDBRepo) SearchAvailabilityForAllRooms(start, end time.Time) ([]models.Room, error) {
 	var rooms []models.Room
+	layout := "2006-01-02"
+	str := "2029-12-31"
+	t, err := time.Parse(layout, str)
+	if err != nil {
+		log.Println(err)
+	}
+
+	testDateToFail, err := time.Parse(layout, "2040-01-01")
+	if err != nil {
+		log.Println(err)
+	}
+
+	if start == testDateToFail {
+		return rooms, errors.New("some error")
+	}
+
+	if start.After(t) {
+		return rooms, nil
+	}
+
+	room := models.Room{
+		ID: 1,
+	}
+	rooms = append(rooms, room)
+
 	return rooms, nil
 }
 
