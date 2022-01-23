@@ -14,11 +14,6 @@ import (
 	"github.com/yalagtyarzh/leafsite/internal/models"
 )
 
-type postData struct {
-	key   string
-	value string
-}
-
 func TestHandlers(t *testing.T) {
 	var theTests = []struct {
 		name               string
@@ -62,40 +57,6 @@ func TestHandlers(t *testing.T) {
 			method:             "GET",
 			expectedStatusCode: http.StatusOK,
 		},
-		// {
-		// 	name:               "ma",
-		// 	url:                "/make-reservation",
-		// 	method:             "GET",
-		// 	params:             []postData{},
-		// 	expectedStatusCode: http.StatusOK,
-		// },
-		// {
-		// 	name:               "rs",
-		// 	url:                "/reservation-summary",
-		// 	method:             "GET",
-		// 	params:             []postData{},
-		// 	expectedStatusCode: http.StatusOK,
-		// },
-		// {
-		// 	name:   "post-sa",
-		// 	url:    "/search-availability",
-		// 	method: "POST",
-		// 	params: []postData{
-		// 		{key: "start", value: "2021-12-12"},
-		// 		{key: "end", value: "2021-12-13"},
-		// 	},
-		// 	expectedStatusCode: http.StatusOK,
-		// },
-		// {
-		// 	name:   "post-sa-json",
-		// 	url:    "/search-availability-json",
-		// 	method: "POST",
-		// 	params: []postData{
-		// 		{key: "start", value: "2021-12-12"},
-		// 		{key: "end", value: "2021-12-13"},
-		// 	},
-		// 	expectedStatusCode: http.StatusOK,
-		// },
 	}
 	routes := getRoutes()
 	ts := httptest.NewServer(routes)

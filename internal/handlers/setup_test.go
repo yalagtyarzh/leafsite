@@ -46,6 +46,12 @@ func TestMain(m *testing.M) {
 
 	testApp.Session = session
 
+	mailChan := make(chan models.MailData)
+	testApp.MailChan = mailChan
+	defer close(mailChan)
+
+	listenForMail()
+
 	tc, err := CreateTestTemplateCache()
 	if err != nil {
 		log.Fatal(err)
@@ -60,6 +66,14 @@ func TestMain(m *testing.M) {
 	render.NewRenderer(&testApp)
 
 	os.Exit(m.Run())
+}
+
+func listenForMail() {
+	go func() {
+		for {
+			_ = <-testApp.MailChan
+		}
+	}()
 }
 
 func getRoutes() http.Handler {
