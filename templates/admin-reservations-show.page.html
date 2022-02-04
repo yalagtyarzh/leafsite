@@ -14,7 +14,7 @@
             <strong>Room:</strong>  {{$res.Room.RoomName}}
         </p>
 
-        <form method="post" action="/make-reservation" class="" novalidate>
+        <form method="post" action="/admin/reservations/{{$src}}/{{$res.ID}}" class="" novalidate>
             <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
   
             <div class="form-group">
@@ -51,7 +51,7 @@
   
             <hr>
   
-            <input type="submit" class="btn btn-primary" value="Make Reservation">
+            <input type="submit" class="btn btn-primary" value="Save">
             <a href="/admin/reservations-{{$src}}" class="btn btn-warning">Cancel</a>
           </form>
     </div>
