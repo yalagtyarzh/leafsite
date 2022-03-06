@@ -48,14 +48,17 @@
               {{end}}
               <input type="text" name="phone" id="phone" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" value="{{$res.Phone}}" required autocomplete="off">
             </div>
-  
+
             <hr>
-              <div class="clearfix">
-                <input type="submit" class="btn btn-primary" value="Save">
-                <a href="/admin/reservations-{{$src}}" class="btn btn-warning">Cancel</a>
-                <a href="#!" class="btn btn-info" onclick="processRes({{$res.ID}})">Mark as Processed</a>
-                <a href="#!" class="btn btn-danger float-end" onclick="deleteRes({{$res.ID}})">Delete</a>
-              </div>
+            <input type="submit" class="btn btn-primary" value="Save">
+            {{if eq $src "cal"}}
+              <a href="#!" onclick="window.history.go(-1)" class="btn btn-warning">Cancel</a>
+            {{else}}
+              <a href="/admin/reservations-{{$src}}" class="btn btn-warning">Cancel</a>
+            {{end}}
+            <a href="#!" class="btn btn-info" onclick="processRes({{$res.ID}})">Mark as Processed</a>
+            <a href="#!" class="btn btn-danger float-end" onclick="deleteRes({{$res.ID}})">Delete</a>
+            <div class="clearfix"></div>
           </form>
     </div>
 {{end}}
