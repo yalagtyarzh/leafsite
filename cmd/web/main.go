@@ -81,7 +81,7 @@ func run() (*driver.DB, error) {
 	log.Println("Connecting to database...")
 	db, err := driver.ConnectSQL("host=localhost port=5432 dbname=leafsite user=agrael password=")
 	if err != nil {
-		log.Fatal("Cannot connect to database!, Dying...")
+		log.Fatal("Cannot connect to database! Dying...")
 		return nil, err
 	}
 	log.Println("Connected to database!")

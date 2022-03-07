@@ -25,6 +25,7 @@ func (m *testDBRepo) InsertRoomRestriction(r models.RoomRestriction) error {
 	if r.RoomID == 1000 {
 		return errors.New("some error")
 	}
+
 	return nil
 }
 
@@ -104,7 +105,10 @@ func (m *testDBRepo) UpdateUser(user models.User) error {
 }
 
 func (m *testDBRepo) Authenticate(email, testPassword string) (int, string, error) {
-	return 1, "", nil
+	if email == "sera@gmail.com" {
+		return 1, "", nil
+	}
+	return 0, "", errors.New("some error")
 }
 
 //AllReservations returns a slice of all reservations
