@@ -160,7 +160,6 @@ func (m *Repository) PostReservation(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["reservation"] = reservation
-		http.Error(w, "form is invalid", http.StatusSeeOther)
 
 		stringMap := make(map[string]string)
 		stringMap["start_date"] = sd

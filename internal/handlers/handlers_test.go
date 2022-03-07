@@ -313,7 +313,7 @@ func TestRepository_PostReservation(t *testing.T) {
 			email:              "silhouetteAG@gmail.com",
 			phone:              "7777777777",
 			roomID:             "1",
-			expectedStatusCode: http.StatusSeeOther,
+			expectedStatusCode: http.StatusOK,
 		},
 		{
 			name:               "Failure to insert reservation",
