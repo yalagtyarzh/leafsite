@@ -3,3 +3,4 @@ coverage.out
 .bin
 database.yml
 migrations/schema.sql
+.idea
