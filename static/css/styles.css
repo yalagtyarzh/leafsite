@@ -1,9 +1,14 @@
+html,
+body {
+    height: 100%;
+}
+
 footer {
     width: 100%;
     height: 5em;
-    background-color: #00A170;
     padding: 1em;
     margin-top: 1.5em;
+    background-color: #00A170;
     font-size: 120%;
 }
 
@@ -18,6 +23,16 @@ footer a {
 
 footer a:hover {
     color: #c4c0bc
+}
+
+.wrapper {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    flex: 1 1 auto;
 }
 
 .room-image {
