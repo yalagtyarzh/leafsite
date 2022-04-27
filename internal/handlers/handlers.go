@@ -832,5 +832,5 @@ func (m *Repository) AdminPostReservationsCalendar(w http.ResponseWriter, r *htt
 }
 
 func (m *Repository) NotFound(w http.ResponseWriter, r *http.Request) {
-	render.Template(w, r, "home.page.tmpl", &models.TemplateData{})
+	render.Template(w, r, "error.page.tmpl", &models.TemplateData{})
 }
