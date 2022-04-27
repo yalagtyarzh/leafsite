@@ -248,7 +248,7 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		m.App.Session.Put(r.Context(), "error", "Can't parse form")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		http.Redirect(w, r, "/search-availability", http.StatusSeeOther)
 		return
 	}
 
@@ -259,15 +259,15 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 
 	startDate, err := time.Parse(layout, start)
 	if err != nil {
-		m.App.Session.Put(r.Context(), "error", "Can't parse start date")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		m.App.Session.Put(r.Context(), "error", "Invalid arrival date")
+		http.Redirect(w, r, "/search-availability", http.StatusSeeOther)
 		return
 	}
 
 	endDate, err := time.Parse(layout, end)
 	if err != nil {
-		m.App.Session.Put(r.Context(), "error", "Can't parse end date")
-		http.Redirect(w, r, "/", http.StatusSeeOther)
+		m.App.Session.Put(r.Context(), "error", "Invalid departure")
+		http.Redirect(w, r, "/search-availability", http.StatusSeeOther)
 		return
 	}
 
@@ -335,13 +335,13 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	layout := "2006-01-02"
 	startDate, err := time.Parse(layout, sd)
 	if err != nil {
-		helpers.ServerError(w, err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 
 	endDate, err := time.Parse(layout, ed)
 	if err != nil {
-		helpers.ServerError(w, err)
+		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 		return
 	}
 
