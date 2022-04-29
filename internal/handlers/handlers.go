@@ -317,7 +317,7 @@ func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
 	// need to parse request body
 	err := r.ParseForm()
 	if err != nil {
-		//can't parse form, so return appropirate json
+		//can't parse form, so return appropriate json
 		resp := jsonResponse{
 			OK:      false,
 			Message: "Internal server error",

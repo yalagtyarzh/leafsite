@@ -19,14 +19,14 @@
 				<p>Your home away from home, set on the majestic waters of the Atlantic Ocean, this wll be a vacation to
 					remember</p>
 			</div>
+			<div class="row">
+				<div class="col text-center">
+					<a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col text-center">
-			<a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
-		</div>
-	</div>
 {{end}}
 
 {{define "js"}}
@@ -83,8 +83,8 @@
 							msg: "Invalid arrival/departure date",
 						})
 					})
-							.then(data => {
-								if (data.ok) {
+						.then(data => {
+							if(data.ok) {
 									attention.custom({
 										icon: 'success',
 										showConfirmButton: false,
